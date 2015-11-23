@@ -2,22 +2,15 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/libs/faceppsdk.jar" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/songjian/recoface/utils/BitmapUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/songjian/recoface/utils/BitmapUtil.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/songjian/recoface/utils/NetworkUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/songjian/recoface/utils/ScreenshotUtil.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/utils" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/fab_label_background.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_a.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_a.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_a.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_b.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_b.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_c.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/button_c.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/themes.xml" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/library" charset="GBK" />
     <file url="file://$PROJECT_DIR$/library" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
