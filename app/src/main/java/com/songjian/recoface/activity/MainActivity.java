@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.hardware.SensorEvent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,18 +31,30 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.songjian.recoface.R;
 import com.songjian.recoface.utils.BitmapUtil;
 import com.songjian.recoface.utils.NetworkUtil;
+import com.umeng.scrshot.UMScrShotController;
+import com.umeng.scrshot.adapter.UMAppAdapter;
+import com.umeng.scrshot.adapter.UMBaseAdapter;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sensor.UMSensor;
+import com.umeng.socialize.sensor.beans.ShakeMsgType;
+import com.umeng.socialize.sensor.controller.UMShakeService;
+import com.umeng.socialize.sensor.controller.impl.UMShakeServiceFactory;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,8 +78,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Dialog dialog;
 
 
+    // 声明mShakeController, 参数1为sdk 控制器描述符
+    UMShakeService mShakeController = UMShakeServiceFactory
+            .getShakeService("write.your.content");
+
     // 首先在您的Activity中添加如下成员变量
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+
 
 // 设置分享图片，参数2为本地图片的资源引用
 //mController.setShareMedia(new UMImage(getActivity(), R.drawable.icon));
@@ -103,31 +121,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    /**
+     * 传感器监听器，在下面的集成中使用
+     */
+    private UMSensor.OnSensorListener mSensorListener = new UMSensor.OnSensorListener() {
+
+        @Override
+        public void onStart() {
+        }
+
+        /**
+         * 分享完成后回调
+         */
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
+            Toast.makeText(MainActivity.this, "分享完成(￣ω￣) ", Toast.LENGTH_SHORT).show();
+        }
+
+        /**
+         * @Description: 摇一摇动作完成后回调
+         */
+        @Override
+        public void onActionComplete(SensorEvent event) {
+            Toast.makeText(MainActivity.this, "摇一摇，评论并分享哟，么么哒( >з<)", Toast.LENGTH_SHORT).show();
+        }
+
+        /**
+         * @Description: 用户点击分享窗口的取消和分享按钮触发的回调
+         * @param button 用户在分享窗口点击的按钮，有取消和分享两个按钮
+         */
+        @Override
+        public void onButtonClick(UMSensor.WhitchButton button) {
+            if (button == UMSensor.WhitchButton.BUTTON_CANCEL) {
+                Toast.makeText(MainActivity.this, "分享已取消~伦家不开森(>_<)", Toast.LENGTH_SHORT).show();
+            } else {
+                // 分享中, ( 用户点击了分享按钮 )
+            }
+        }
+    };
+
+    // 截图监听器，将图像回调给开发者
+    private UMScrShotController.OnScreenshotListener mScrShotListener = new UMScrShotController.OnScreenshotListener() {
+        @Override
+        public void onComplete(Bitmap bmp) {
+            if (null != bmp) {
+                // 得到截图
+
+            }
+        }
+    };
+
+    /**
+     * umeng社会化分享
+     */
+
     private void umengSocialShare() {
 
+
         //参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "100424468", "c7394704798a158208a74ab60104f0ba");
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "1104911029", "4WVr2PMolD8UPpfw");
         qqSsoHandler.addToSocialSDK();
         //参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
-        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, "100424468",
-                "c7394704798a158208a74ab60104f0ba");
+        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, "1104911029",
+                "4WVr2PMolD8UPpfw");
         qZoneSsoHandler.addToSocialSDK();
         //设置新浪SSO handler
-        mController.getConfig().setSsoHandler(new SinaSsoHandler());
-
-
-
-
+        //mController.getConfig().setSsoHandler(new SinaSsoHandler());
 
 
         // 设置分享内容
-        mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
+        mController.setShareContent("RecoFace,一个让你惊艳的App~别问我问什么，任性！");
 
         // 设置分享图片, 参数2为图片的url地址
         //mController.setShareMedia(new UMImage(this, "http://www.umeng.com/images/pic/banner_module_social.png"));
 
         // 设置分享图片，参数2为本地图片的路径(绝对路径)
-        mController.setShareMedia(new UMImage(this, BitmapFactory.decodeFile("/mnt/sdcard/test.png")));
+        //mController.setShareMedia(new UMImage(this, BitmapFactory.decodeFile("/mnt/sdcard/test.png")));
 
     }
 
@@ -414,6 +484,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
+
+        /**使用SSO授权必须添加如下代码 */
+        UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+
+
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CAPTURE_CHOOSE) {
                 File file = new File(Environment.getExternalStorageDirectory(),
@@ -496,4 +575,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
+//    private class CustomAdapter extends UMBaseAdapter(){
+        // 注意 : gitBitmap()在sdk内部的子线程中调用，因此请勿在该函数中更新UI.
+//        @Override
+//        public Bitmap getBitmap() {
+//            Bitmap bitmap = null;
+//            bitmap =
+//
+//            /* 你自己实现的截图功能的函数  */;
+//            // 获取到的截图返回
+//            return bitmap;
+//        }
+//    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        UMAppAdapter appAdapter = new UMAppAdapter(MainActivity.this);
+        // 配置摇一摇截屏分享时用户可选的平台，最多支持五个平台
+        List<SHARE_MEDIA> platforms = new ArrayList<SHARE_MEDIA>();
+        platforms.add(SHARE_MEDIA.QZONE);
+        platforms.add(SHARE_MEDIA.SINA);
+        // 设置摇一摇分享的文字内容
+        mShakeController.setShareContent("美好瞬间，摇摇分享");
+        // 设置分享内容类型, PLATFORM_SCRSHOT代表使用摇一摇的截图，而文字内容为开发者预设的平台独立的内容
+        // 例如WeiXinShareContent, SinaShareContent等.      一般情况可不设置.
+        mShakeController.setShakeMsgType(ShakeMsgType.PLATFORM_SCRSHOT);
+        // 注册摇一摇截屏分享功能,mSensorListener在2.1.2中定义
+        mShakeController.registerShakeListender(MainActivity.this, appAdapter,
+                platforms, mSensorListener);
+
+
+//        // 参数1为用户所在的activity, 参数2为摇一摇时是否开启音效
+//        mShakeController.registerShakeToOpenShare(MainActivity.this, true);
+//
+//// 配置摇一摇截屏分享时用户可选的平台，最多支持五个平台
+//        List<SHARE_MEDIA> platforms = new ArrayList<SHARE_MEDIA>();
+//        platforms.add(SHARE_MEDIA.QZONE);
+//        platforms.add(SHARE_MEDIA.SINA);
+//        platforms.add(SHARE_MEDIA.WEIXIN);
+//
+//        // 注册摇一摇截图分享,YourActivity 为对应的Activity,mSensorListener在2.2.1中定义
+////        mShakeController.registerShakeListender(MainActivity.this,
+////                new CustomAdapter(), platforms, mSensorListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mShakeController.unregisterShakeListener(MainActivity.this);
+
+    }
 }
