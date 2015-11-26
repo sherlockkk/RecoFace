@@ -43,6 +43,8 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         iv_start = (ImageView) findViewById(R.id.iv_splash);
         initImage();
+
+
     }
 
     private void initImage() {
@@ -123,5 +125,11 @@ public class SplashActivity extends Activity {
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //MobclickAgent.onResume(this);
     }
 }

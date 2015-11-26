@@ -35,9 +35,11 @@ import com.umeng.scrshot.UMScrShotController;
 import com.umeng.scrshot.adapter.UMAppAdapter;
 import com.umeng.scrshot.adapter.UMBaseAdapter;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.ShareType;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sensor.UMSensor;
 import com.umeng.socialize.sensor.beans.ShakeMsgType;
@@ -47,6 +49,7 @@ import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.update.UmengUpdateAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initWidget();
 
         umengSocialShare();
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
+        UmengUpdateAgent.update(this);
 
     }
 
@@ -183,21 +188,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "1104911029", "4WVr2PMolD8UPpfw");
         qqSsoHandler.addToSocialSDK();
         //参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
-        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, "1104911029",
-                "4WVr2PMolD8UPpfw");
+        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, "1104911029","4WVr2PMolD8UPpfw");
         qZoneSsoHandler.addToSocialSDK();
         //设置新浪SSO handler
         //mController.getConfig().setSsoHandler(new SinaSsoHandler());
 
 
+        QQShareContent qqShareContent = new QQShareContent();
+
+        qqShareContent.setShareContent("RecoFace,一个让你惊艳的App~别问我问什么，任性！");
+
+        qqShareContent.setTitle("RecoFace");
+
+        //qqShareContent.setShareImage(new UMImage(MainActivity.this, R.mipmap.ic_launcher));
+
+        qqShareContent.setTargetUrl("http://recoface.bmob.cn/");
+
+        mController.setShareMedia(qqShareContent);
+
+
         // 设置分享内容
         mController.setShareContent("RecoFace,一个让你惊艳的App~别问我问什么，任性！");
-
+       // mController.setAppWebSite("http://recoface.bmob.cn/");
+        mController.setAppWebSite(SHARE_MEDIA.QQ,"http://recoface.bmob.cn/");
         // 设置分享图片, 参数2为图片的url地址
         //mController.setShareMedia(new UMImage(this, "http://www.umeng.com/images/pic/banner_module_social.png"));
 
         // 设置分享图片，参数2为本地图片的路径(绝对路径)
-        //mController.setShareMedia(new UMImage(this, BitmapFactory.decodeFile("/mnt/sdcard/test.png")));
+        //mController.setShareMedia(new UMImage(this, BitmapFactory.decodeFile("/mnt/sdcard/temp.png")));
 
     }
 

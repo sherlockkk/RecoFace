@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
 
@@ -45,10 +44,8 @@
         android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar" >
 
         <!-- ###################添加UmengAppkey###################### -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5653b82267e58e1ece006026" >
-        </meta-data>
+        <meta-data android:name="UMENG_APPKEY" android:value="5653b82267e58e1ece006026" />
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
 
         <activity
             android:name=".activity.SplashActivity"
@@ -92,6 +89,17 @@
         <activity android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait">
+        </activity>
+
+
+<!-- umeng自动更新配置 -->
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
 
     </application>

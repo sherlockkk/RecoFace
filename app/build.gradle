@@ -8,7 +8,7 @@ android {
         applicationId "com.songjian.recoface"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
+        versionCode 2
         versionName "1.0"
     }
     buildTypes {
@@ -27,6 +27,8 @@ repositories {
 dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
     compile files('libs/faceppsdk.jar')
     compile project(':library')
     //    compile('com.github.afollestad.material-dialogs:core:0.8.5.1@aar') {
@@ -35,6 +37,10 @@ dependencies {
     //    compile('com.github.afollestad.material-dialogs:commons:0.8.5.1@aar') {
     //        transitive = true
     //    }
+
+    compile 'com.umeng.analytics:analytics:latest.integration'
+
+
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile files('libs/SocialSDK_scrshot.jar')
     compile files('libs/SocialSDK_shake.jar')
@@ -43,5 +49,7 @@ dependencies {
     compile files('libs/SocialSDK_QQZone_3.jar')
     compile files('libs/SocialSDK_QQZone_1.jar')
     compile files('libs/SocialSDK_Sina.jar')
+    compile files('libs/umeng-update-v2.6.0.1.jar')
+
 }
 
