@@ -31,6 +31,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.songjian.recoface.R;
 import com.songjian.recoface.utils.BitmapUtil;
 import com.songjian.recoface.utils.NetworkUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.scrshot.UMScrShotController;
 import com.umeng.scrshot.adapter.UMAppAdapter;
 import com.umeng.scrshot.adapter.UMBaseAdapter;
@@ -611,11 +612,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPostResume() {
         super.onPostResume();
 
+
+        MobclickAgent.onResume(this);
         UMAppAdapter appAdapter = new UMAppAdapter(MainActivity.this);
         // 配置摇一摇截屏分享时用户可选的平台，最多支持五个平台
         List<SHARE_MEDIA> platforms = new ArrayList<SHARE_MEDIA>();
         platforms.add(SHARE_MEDIA.QZONE);
         platforms.add(SHARE_MEDIA.SINA);
+        platforms.add(SHARE_MEDIA.QQ);
         // 设置摇一摇分享的文字内容
         mShakeController.setShareContent("美好瞬间，摇摇分享");
         // 设置分享内容类型, PLATFORM_SCRSHOT代表使用摇一摇的截图，而文字内容为开发者预设的平台独立的内容
@@ -644,6 +648,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         mShakeController.unregisterShakeListener(MainActivity.this);
-
+        MobclickAgent.onPause(this);
     }
 }

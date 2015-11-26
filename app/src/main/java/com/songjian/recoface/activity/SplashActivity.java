@@ -16,6 +16,7 @@ import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.songjian.recoface.R;
 import com.songjian.recoface.utils.Constant;
 import com.songjian.recoface.utils.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -130,6 +131,12 @@ public class SplashActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //MobclickAgent.onResume(this);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }
